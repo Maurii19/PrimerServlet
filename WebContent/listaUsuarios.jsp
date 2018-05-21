@@ -17,7 +17,7 @@ ArrayList<Usuario> usuarioss = (ArrayList)request.getAttribute("usuariosB");
 <%
 Object objeto = session.getAttribute("user");
 Object obj = session.getAttribute("password");
-if (objeto == "" && obj == "") {
+if (objeto == null && obj == null) {
 	response.sendRedirect("login.html");
 }else{
 
