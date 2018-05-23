@@ -17,26 +17,30 @@ public class ListarUsuario extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		HttpSession session = request.getSession();
-
-		Object objeto = session.getAttribute("user");
-		if (objeto == null) {
-			response.sendRedirect("login.html");
+		
+		Usuario usuario = (Usuario) session.getAttribute("user");
+		
+		if(usuario != null){
+			//recibir datos
+			String nombreUsuario = request.getParameter("nombre");
+			
+			UsuarioModelo um = new UsuarioModelo();
+			ArrayList<Usuario> usuarios = um.selectAll();
+			Usuario user = new Usuario();
+			user.setNombre(nombreUsuario);
+			usuarios.add(user);
+			
+			request.setAttribute("usuarios", usuarios);
+			
+			
+			RequestDispatcher rd = request.getRequestDispatcher("listaUsuarios.jsp");
+			rd.forward(request, response);
+		
 		}else{
-		
-		//recibir datos
-		String nombreUsuario = request.getParameter("nombre");
-		String contrasenaUsuario = request.getParameter("password");
-		UsuarioModelo um = new UsuarioModelo();
-		ArrayList<Usuario> usuarioss = um.selectAll();
-		Usuario usuario = new Usuario();
-		usuario.setNombre(nombreUsuario);
-		usuarioss.add(usuario);
-		
-		request.setAttribute("usuariosB", usuarioss);
+			response.sendRedirect("adios.html");
+		}
 		
 		
-		RequestDispatcher rd = request.getRequestDispatcher("listaUsuarios.jsp");
-		rd.forward(request, response);
 	}
 	}
-}
+

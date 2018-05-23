@@ -15,21 +15,32 @@ import modelo.UsuarioModelo;
 public class LoginBBDD extends HttpServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	String user = request.getParameter("user");
-	String password = request.getParameter("password");
-	UsuarioModelo um = new UsuarioModelo();
-	Usuario usuario = um.selectUser(user);
+		
+		String nombre = request.getParameter("user");
+		String password = request.getParameter("password");
 
+		UsuarioModelo um = new UsuarioModelo();
+		Usuario usuario;
+		
+		if(um.selectUser(nombre) != null ){
+			usuario = um.selectUser(nombre);
+		}else{
+			usuario = new Usuario();
+		}
 	
-	if (user.equals(usuario.getNombre()) && password.equals(usuario.getPassword())){
+	if (nombre.equals(usuario.getNombre()) && password.equals(usuario.getPassword())) {
+
 		HttpSession session = request.getSession();
-		session.setAttribute("user", usuario.getNombre());
-		response.sendRedirect("ListarUsuario");
-	}else{
+
+		session.setAttribute("user", usuario);
+
+		RequestDispatcher rd = request.getRequestDispatcher("ListarUsuario");
+		rd.forward(request, response);
+	} else {
 		RequestDispatcher rd = request.getRequestDispatcher("adios.html");
 		rd.forward(request, response);
-	}
 }
+	}
 }
 
 

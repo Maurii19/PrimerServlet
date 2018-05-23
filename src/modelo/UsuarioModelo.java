@@ -262,10 +262,10 @@ public class UsuarioModelo extends Conector {
 			usuario = new Usuario(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getInt("edad"),
 					rs.getString("dni"), rs.getDate("fecha_nacimiento"), rs.getString("password"), rs.getString("rol"));
 		} catch (SQLException e) {
-			System.out.println("Error, prueba otra vez");
+		
 		}
 		return usuario;
-}
+}	
 
 }
 
